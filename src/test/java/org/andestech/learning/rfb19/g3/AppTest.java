@@ -61,7 +61,43 @@ public class AppTest
         Wait<WebDriver> wait2 = new FluentWait<>(wd).withTimeout(Duration.ofSeconds(5)).
                 pollingEvery(Duration.ofMillis(500)).ignoring(NoSuchElementException.class);
 
-        wd.get("http://google.com");
+        wd.get("http://yandex.ru");
+
+        WebElement webElement = wd.findElement(By.name("text"));
+        webElement.sendKeys("Mars expedition");
+        webElement.submit();
+
+        String keySite = "";
+        int raiting = -100;
+
+
+        int i = 0;
+        List<WebElement> datas = wd.findElements(By.cssSelector("ul > li.serp-item h2>a"));
+        for(WebElement webElement1: datas)
+        {
+            System.out.println(i++ + " :" + webElement1.getAttribute("href"));
+        }
+
+        // ul > li.serp-item h2>a'
+
+        int N = 9;
+
+        for(int k = 0; k<N; k++)
+        {
+
+            WebElement pnnext = wd.findElement(By.linkText("Дальше"));
+            pnnext.click();
+
+            datas.clear();
+            datas = wd.findElements(By.cssSelector("div.g div.r > a"));
+            for(WebElement element :  datas)
+            {
+                System.out.println(i++ + " : " + element.getAttribute("href"));
+            }
+
+
+        }
+
 
 
     }
