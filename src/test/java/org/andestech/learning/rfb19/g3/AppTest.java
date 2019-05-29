@@ -45,7 +45,7 @@ public class AppTest
     }
 
     @Test
-    public void testCaseChrome01() throws InterruptedException
+    public void chromeTest() throws InterruptedException
     {
         wd = new ChromeDriver(chromeOptions);
        //    wd.manage().timeouts().pageLoadTimeout(3, TimeUnit.SECONDS);
