@@ -13,6 +13,7 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import java.time.Duration;
+import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -64,41 +65,54 @@ public class AppTest
         wd.get("http://yandex.ru");
 
         WebElement webElement = wd.findElement(By.name("text"));
-        webElement.sendKeys("Mars expedition");
+
+        String searchPrase = "Вояджер";
+        String ratingAddress = "nasa";
+
+        webElement.sendKeys(searchPrase);
         webElement.submit();
 
-        String keySite = "";
-        int raiting = -100;
+        HashMap<Integer,String> rating =  new HashMap<>();
 
+        String resultDataSelector = "ul > li.serp-item h2>a";
 
         int i = 0;
-        List<WebElement> datas = wd.findElements(By.cssSelector("ul > li.serp-item h2>a"));
+        List<WebElement> datas = wd.findElements(By.cssSelector(resultDataSelector));
         for(WebElement webElement1: datas)
         {
-            System.out.println(i++ + " :" + webElement1.getAttribute("href"));
+            String link =  webElement1.getAttribute("href");
+            System.out.println(i++ + " :" + link);
+            if(link.toLowerCase().indexOf(ratingAddress) != -1) rating.put(i,link);
+
         }
 
         // ul > li.serp-item h2>a'
 
-        int N = 9;
+        int N = 6;
 
         for(int k = 0; k<N; k++)
         {
 
-            WebElement pnnext = wd.findElement(By.linkText("Дальше"));
+            WebElement pnnext = wd.findElement(By.linkText("дальше"));
             pnnext.click();
 
             datas.clear();
-            datas = wd.findElements(By.cssSelector("div.g div.r > a"));
-            for(WebElement element :  datas)
+            datas = wd.findElements(By.cssSelector(resultDataSelector));
+            for(WebElement webElement1 :  datas)
             {
-                System.out.println(i++ + " : " + element.getAttribute("href"));
+                String link =  webElement1.getAttribute("href");
+                System.out.println(i++ + " :" + link);
+                if(link.toLowerCase().indexOf(ratingAddress) != -1) rating.put(i,link);
             }
-
 
         }
 
-
+        System.out.println("---------------------rating-----------------------------------");
+        System.out.println("Search prase: " + searchPrase + ", rating for web with text:" + ratingAddress);
+        for(int key: rating.keySet())
+        {
+            System.out.println(key + " : " + rating.get(key));
+        }
 
     }
 
