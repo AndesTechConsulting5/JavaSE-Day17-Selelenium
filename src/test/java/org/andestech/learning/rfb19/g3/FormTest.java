@@ -19,6 +19,7 @@ public class FormTest
     private WebDriver wd = null;
     private ChromeOptions chromeOptions;
 
+    //@BeforeMethod // для мульти теста
     @BeforeClass
     public void initData(){
     System.setProperty("webdriver.chrome.driver",
@@ -111,6 +112,7 @@ public class FormTest
     }
 
 
+//    @AfterMethod
     @AfterClass
     public void tearDown()
     {
